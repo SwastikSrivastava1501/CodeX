@@ -28,7 +28,10 @@ export default {
         max_tokens: body.max_tokens || 1000,
       });
 
-      const text = aiResult.response || '';
+      let text = aiResult.response;
+if (typeof text !== 'string') {
+  text = JSON.stringify(text ?? '');
+}
       return new Response(
         JSON.stringify({ content: [{ type: 'text', text }] }),
         { headers: { ...corsHeaders(), 'Content-Type': 'application/json' } }
